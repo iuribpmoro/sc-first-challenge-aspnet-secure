@@ -49,13 +49,6 @@ public static class AuthenticationMiddlewareExtensions
 
 public class Startup
 {
-
-    private static bool IsWhitelisted(string path)
-    {
-        var whitelist = new[] { "/", "/login" };
-        return whitelist.Contains(path);
-    }
-
     private static readonly List<User> users = new List<User>
     {
         new User { Id = Guid.NewGuid(), Name = "Alice", Email = "alice@example.com", Password = "password1" },
@@ -73,6 +66,12 @@ public class Startup
         services.AddRouting();
         services.AddSession();
         services.AddDistributedMemoryCache();
+    }
+
+    private static bool IsWhitelisted(string path)
+    {
+        var whitelist = new[] { "/", "/login" };
+        return whitelist.Contains(path);
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
